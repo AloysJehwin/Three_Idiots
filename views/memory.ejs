@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Gallery</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1 class="title">Memory Gallery</h1>
+
+    <% if (memories.length === 0) { %>
+        <p class="no-memories">No memories available</p>
+    <% } else { %>
+        <div class="memory-container">
+            <% memories.forEach(memory => { %>
+                <div class="memory-card">
+                    <% if (memory.imageUrl) { %>
+                        <div class="image-container">
+                            <img src="<%= memory.imageUrl %>" alt="Memory Image">
+                            <% if (memory.audioUrl) { %>
+                                <div class="audio-overlay">
+                                    <audio controls>
+                                        <source src="<%= memory.audioUrl %>" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } %>
+                
+                    <p class="memory-content"><%= memory.content %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Title */
+.title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* No Memories */
+.no-memories {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-top: 20px;
+}
+
+/* Memory Grid */
+.memory-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Memory Card */
+.memory-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.memory-card:hover {
+    transform: scale(1.05);
+}
+
+/* Image Container */
+.image-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Image Styling */
+.memory-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Audio Overlay */
+.audio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Show audio on hover */
+.image-container:hover .audio-overlay {
+    opacity: 1;
+}
+
+/* Audio Controls */
+audio {
+    width: 80%;
+    filter: brightness(1.2);
+}
