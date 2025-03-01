@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+
+    <!-- ✨ Page Title -->
     <h1 class="title">Memory Gallery</h1>
+
+    <!-- 💙 Friendship Quote -->
+    <p class="quote">"Some friendships are timeless. Even when miles apart, the memories stay close to the heart."</p>
 
     <% if (memories.length === 0) { %>
         <p class="no-memories">No memories available</p>
@@ -15,9 +20,13 @@
         <div class="memory-container">
             <% memories.forEach(memory => { %>
                 <div class="memory-card">
+                    
+                    <!-- 🖼️ Image Display -->
                     <% if (memory.imageUrl) { %>
                         <div class="image-container">
                             <img src="<%= memory.imageUrl %>" alt="Memory Image">
+                            
+                            <!-- 🎵 Audio Overlay -->
                             <% if (memory.audioUrl) { %>
                                 <div class="audio-overlay">
                                     <audio controls>
@@ -28,7 +37,8 @@
                             <% } %>
                         </div>
                     <% } %>
-                
+                    
+                    <!-- 💭 Memory Content -->
                     <p class="memory-content"><%= memory.content %></p>
                 </div>
             <% }); %>
