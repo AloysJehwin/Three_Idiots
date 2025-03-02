@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trio Memories</title>
+    <title>Memory Gallery</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
     <!-- ✨ Page Title -->
-    <h1 class="title">Memory Gallery</h1>
+    <h1 class="title">Trios (Idiots)</h1>
 
     <!-- 💙 Friendship Quote -->
-    <p class="quote">"Some friendships are timeless. Even when miles apart, the memories stay close to the heart."</p>
+    <p class="quote">"Ithuku mela enaku ena pana nu thrla, Ana semma cringe aa irruku ithu"</p>
 
     <% if (memories.length === 0) { %>
         <p class="no-memories">No memories available</p>
@@ -26,24 +26,27 @@
                         <div class="image-container">
                             <img src="<%= memory.imageUrl %>" alt="Memory Image">
                             
-                            <!-- 🎵 Audio Overlay -->
-                            <% if (memory.audioUrl) { %>
-                                <div class="audio-overlay">
-                                    <audio controls>
-                                        <source src="<%= memory.audioUrl %>" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
-                            <% } %>
+                            <!-- 💭 Memory Content (Hidden Initially) -->
+                            <div class="memory-content">
+                                <p class="typing-text" data-text="<%= memory.content %>"></p>
+                            </div>                            
                         </div>
+
+                        <!-- 🎵 Audio Controls (Below Image) -->
+                        <% if (memory.audioUrl) { %>
+                            <div class="audio-container">
+                                <audio controls>
+                                    <source src="<%= memory.audioUrl %>" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        <% } %>
                     <% } %>
-                    
-                    <!-- 💭 Memory Content -->
-                    <p class="memory-content"><%= memory.content %></p>
                 </div>
             <% }); %>
         </div>
     <% } %>
 
+    <script src="/script.js"></script>
 </body>
 </html>
