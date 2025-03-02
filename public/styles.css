@@ -1,109 +1,216 @@
-/* ✨ General Styling */
+/* 🌟 General Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #8e9eab, #eef2f3);
-    margin: 0;
-    padding: 20px;
+    background: linear-gradient(135deg, #f3a683, #786fa6);
+    color: #fff;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 /* ✨ Title */
 .title {
     font-size: 3rem;
-    color: #3f3d56;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 20px 0;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* ✨ Special Quote */
+/* 💙 Friendship Quote */
 .quote {
-    font-size: 1.2rem;
-    color: #5d5c61;
-    margin-bottom: 25px;
+    font-size: 1.4rem;
     font-style: italic;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 10px 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
 }
 
-/* ✨ Memory Grid */
+/* 📜 No Memories */
+.no-memories {
+    font-size: 1.5rem;
+    color: #f8c291;
+}
+
+/* 🖼️ Memory Container */
 .memory-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
     justify-content: center;
-}
-
-/* ✨ Memory Card */
-.memory-card {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 15px;
+    gap: 20px;
     padding: 20px;
-    width: 320px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-    position: relative;
-    backdrop-filter: blur(20px);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* ✨ Hover Effect */
-.memory-card:hover {
-    transform: scale(1.08);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* ✨ Image Container */
-.image-container {
+/* 🎴 Memory Card */
+.memory-card {
     position: relative;
-    width: 100%;
-    border-radius: 10px;
+    width: 300px;
+    border-radius: 15px;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
 }
 
-/* ✨ Image Styling */
-.memory-card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-/* ✨ Hover Effect on Image */
-.memory-card:hover img {
+.memory-card:hover {
     transform: scale(1.05);
 }
 
-/* ✨ Audio Overlay */
-.audio-overlay {
+/* 🖼️ Image Container */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    filter: brightness(80%);
+}
+
+/* 💭 Memory Content (Hidden Initially, Appears on Hover) */
+.memory-content {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #f7d794;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(15px);
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     border-radius: 10px;
 }
 
-/* ✨ Show audio on hover */
-.image-container:hover .audio-overlay {
+/* ⌨ Typing Effect */
+.typing-text {
+    font-size: 1.2rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0; /* Ensure it starts with no text visible */
+    display: inline-block;
+    border-right: 2px solid transparent; /* Hide cursor effect */
+}
+
+/* 📜 Show Content on Hover */
+.image-container:hover .memory-content {
     opacity: 1;
 }
 
-/* ✨ Audio Controls */
-audio {
-    width: 85%;
-    filter: brightness(1.3);
+/* 🎵 Audio Controls */
+.audio-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
+}
+
+.audio-container audio {
+    width: 90%;
+}
+
+
+/* Admin Page */
+
+/* 🌟 General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f3a683, #786fa6);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* ✨ Title */
+.title {
+    font-size: 2.5rem;
+    margin-top: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 🖼️ Form Container */
+.form-container {
+    width: 90%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🏷️ Form Groups */
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* 🏷️ Form Labels */
+.form-label {
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 🔤 Form Inputs */
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 📝 Textarea */
+.form-textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* 🚀 Submit Button */
+.form-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background: #f7d794;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-button:hover {
+    background: #f8c291;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2rem;
+    }
+    .form-container {
+        width: 95%;
+    }
 }
