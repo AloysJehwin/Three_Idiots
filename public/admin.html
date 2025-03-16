@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Upload</title>
+</head>
+<body>
+    <h2>Upload Image</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="image" required />
+        <input type="text" name="title" id="title" placeholder="Title" required />
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData();
+            formData.append("image", document.getElementById("image").files[0]);
+            formData.append("title", document.getElementById("title").value);
+
+            try {
+                const response = await fetch("/api/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert("✅ " + data.message);
+                } else {
+                    alert("❌ Error: " + data.error);
+                }
+
+                console.log(data);
+            } catch (error) {
+                console.error("Upload failed:", error);
+                alert("⚠ Something went wrong. Check console for details.");
+            }
+        });
+    </script>
+</body>
+</html>
