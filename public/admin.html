@@ -2,19 +2,128 @@
 <html lang="en">
 <head>
     <title>Admin Upload</title>
+    <style>
+        body {
+            font-family: "Roboto", serif;
+            background: linear-gradient(135deg, black, #220033);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+        }
+
+        input::placeholder {
+            color: #ddd;
+        }
+
+        button {
+            background: #ff6600;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #cc5500;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #444;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s ease;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background: #666;
+        }
+
+        #preview {
+            width: 90%;
+            max-height: 200px;
+            object-fit: cover;
+            margin-top: 10px;
+            display: none;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <h2>Upload Image</h2>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="image" id="image" required />
-        <input type="text" name="title" id="title" placeholder="Title" required />
-        <button type="submit">Upload</button>
-    </form>
+    <div class="form-container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="image" id="image" required accept="image/*" />
+            <img id="preview" alt="Image Preview">
+            <input type="text" name="title" id="title" placeholder="Title" required />
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    
+    <a href="index.html" class="back-button">⬅ Back</a>
 
     <script>
+        document.getElementById("image").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById("preview");
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         document.getElementById("uploadForm").addEventListener("submit", async function(event) {
             event.preventDefault();
-            
+
             const formData = new FormData();
             formData.append("image", document.getElementById("image").files[0]);
             formData.append("title", document.getElementById("title").value);
@@ -28,11 +137,10 @@
                 const data = await response.json();
                 if (response.ok) {
                     alert("✅ " + data.message);
+                    location.reload(); // Reload page after successful upload
                 } else {
                     alert("❌ Error: " + data.error);
                 }
-
-                console.log(data);
             } catch (error) {
                 console.error("Upload failed:", error);
                 alert("⚠ Something went wrong. Check console for details.");
