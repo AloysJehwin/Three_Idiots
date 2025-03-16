@@ -1,106 +1,120 @@
-/*--------------------
-Vars
---------------------*/
-let progress = 50
-let startX = 0
-let active = 0
-let isDown = false
+document.addEventListener("DOMContentLoaded", () => {
+  let progress = 50;
+  let startX = 0;
+  let active = 0;
+  let isDown = false;
 
-/*--------------------
-Contants
---------------------*/
-const speedWheel = 0.02
-const speedDrag = -0.1
+  const speedWheel = 0.02;
+  const speedDrag = -0.1;
+  let $items = [];
 
-/*--------------------
-Get Z
---------------------*/
-const getZindex = (array, index) => (array.map((_, i) => (index === i) ? array.length : array.length - Math.abs(index - i)))
+  /*--------------------
+  Get Z-Index & Blur
+  --------------------*/
+  const getZindex = (array, index) =>
+    array.map((_, i) => (index === i ? array.length : array.length - Math.abs(index - i)));
 
-/*--------------------
-Items
---------------------*/
-const $items = document.querySelectorAll('.carousel-item')
-const $cursors = document.querySelectorAll('.cursor')
+  const getBlur = (index, active, total) => {
+    let distance = Math.abs(index - active);
+    return Math.min(distance * 3, 10); // Blur increases with distance, max 10px
+  };
 
-const displayItems = (item, index, active) => {
-  const zIndex = getZindex([...$items], active)[index]
-  item.style.setProperty('--zIndex', zIndex)
-  item.style.setProperty('--active', (index-active)/$items.length)
-}
+  /*--------------------
+  Animate Function
+  --------------------*/
+  const animate = () => {
+    if (!$items.length) return; // Prevent errors if items are empty
 
-/*--------------------
-Animate
---------------------*/
-const animate = () => {
-  progress = Math.max(0, Math.min(progress, 100))
-  active = Math.floor(progress/100*($items.length-1))
-  
-  $items.forEach((item, index) => displayItems(item, index, active))
-}
-animate()
+    progress = Math.max(0, Math.min(progress, 100));
+    active = Math.floor((progress / 100) * ($items.length - 1));
 
-/*--------------------
-Click on Items
---------------------*/
-$items.forEach((item, i) => {
-  item.addEventListener('click', () => {
-    progress = (i/$items.length) * 100 + 10
-    animate()
-  })
-})
+    $items.forEach((item, index) => {
+      const zIndex = getZindex([...$items], active)[index];
+      const blurAmount = getBlur(index, active, $items.length);
 
-/*--------------------
-Handlers
---------------------*/
-const handleWheel = e => {
-  const wheelProgress = e.deltaY * speedWheel
-  progress = progress + wheelProgress
-  animate()
-}
+      item.style.setProperty("--zIndex", zIndex);
+      item.style.setProperty("--active", (index - active) / $items.length);
+      item.style.setProperty("--blur", `${blurAmount}px`);
+    });
+  };
 
-const handleMouseMove = (e) => {
-  if (e.type === 'mousemove') {
-    $cursors.forEach(($cursor) => {
-      $cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
+  /*--------------------
+  Rebind Event Listeners
+  --------------------*/
+  const rebindEventListeners = () => {
+    $items = document.querySelectorAll(".carousel-item");
+    $items.forEach((item, i) => {
+      item.addEventListener("click", () => {
+        progress = (i / $items.length) * 100 + 10;
+        animate();
+      });
+    });
+    animate(); // Ensure animation runs
+  };
+
+  /*--------------------
+  Fetch & Load Dynamic Images
+  --------------------*/
+  fetch("/api/images")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Received Data:", data);
+      const carousel = document.querySelector(".carousel");
+      carousel.innerHTML = ""; // Clear existing items
+
+      data.forEach((item, index) => {
+        console.log("Image URL:", item.image_url);
+        const div = document.createElement("div");
+        div.classList.add("carousel-item");
+
+        div.innerHTML = `
+          <div class="carousel-box">
+            <div class="title">${item.title}</div>
+            <div class="num">${String(index + 1).padStart(2, "0")}</div>
+            <img src="${item.image_url}" alt="${item.title}" onerror="this.src='fallback.jpg'">
+          </div>
+        `;
+
+        carousel.appendChild(div);
+      });
+
+      rebindEventListeners(); // Rebind click & animation after images are loaded
     })
-  }
-  if (!isDown) return
-  const x = e.clientX || (e.touches && e.touches[0].clientX) || 0
-  const mouseProgress = (x - startX) * speedDrag
-  progress = progress + mouseProgress
-  startX = x
-  animate()
-}
+    .catch((error) => console.error("Error loading images:", error));
 
-const handleMouseDown = e => {
-  isDown = true
-  startX = e.clientX || (e.touches && e.touches[0].clientX) || 0
-}
+  /*--------------------
+  Interaction Handlers
+  --------------------*/
+  const handleWheel = (e) => {
+    progress += e.deltaY * speedWheel;
+    animate();
+  };
 
-const handleMouseUp = () => {
-  isDown = false
-}
+  const handleMouseMove = (e) => {
+    if (!isDown) return;
+    const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    progress += (x - startX) * speedDrag;
+    startX = x;
+    animate();
+  };
 
+  const handleMouseDown = (e) => {
+    isDown = true;
+    startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+  };
 
-function togglePlay() {
-  const video = document.getElementById('videoPlayer');
-  const playButton = document.getElementById('playButton');
+  const handleMouseUp = () => {
+    isDown = false;
+  };
 
-  if (video.style.display === 'none') {
-      video.style.display = 'block'; // Show video
-      playButton.style.display = 'none'; // Hide button
-      video.src += "?autoplay=1"; // Autoplay video
-  }
-}
-
-/*--------------------
-Listeners
---------------------*/
-document.addEventListener('mousewheel', handleWheel)
-document.addEventListener('mousedown', handleMouseDown)
-document.addEventListener('mousemove', handleMouseMove)
-document.addEventListener('mouseup', handleMouseUp)
-document.addEventListener('touchstart', handleMouseDown)
-document.addEventListener('touchmove', handleMouseMove)
-document.addEventListener('touchend', handleMouseUp)
+  /*--------------------
+  Event Listeners
+  --------------------*/
+  document.addEventListener("wheel", handleWheel);
+  document.addEventListener("mousedown", handleMouseDown);
+  document.addEventListener("mousemove", handleMouseMove);
+  document.addEventListener("mouseup", handleMouseUp);
+  document.addEventListener("touchstart", handleMouseDown);
+  document.addEventListener("touchmove", handleMouseMove);
+  document.addEventListener("touchend", handleMouseUp);
+});
