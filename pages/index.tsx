@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Lightbox from '../components/Lightbox';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const [images, setImages] = useState<string[]>([]);
@@ -15,26 +16,40 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-pink-100 text-gray-800">
-      {/* 🎀 Page Title */}
-      <header className="w-full py-4 bg-pink-200 text-center shadow-md sticky top-0 z-50">
-        <h1 className="text-2xl sm:text-4xl font-bold text-pink-700">
-          🎉 Surprise Party Gallery 🎉
-        </h1>
-      </header>
-
-      {/* 🌟 Full-Screen Featured Image */}
-      <section className="relative w-full h-[100vh] bg-white flex items-center justify-center">
-        <img
+    <div className="bg-violet-100 text-gray-800">
+      {/* 🌟 Hero Section with Fullscreen Image */}
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* Full Background Image */}
+        <motion.img
+          initial={{ scale: 1.05, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1 }}
           src={featuredImagePath}
           alt="Featured"
-          className="object-contain h-[80%] max-w-full transition-transform hover:scale-105 cursor-pointer drop-shadow-2xl"
-          onClick={() => setSelectedImg(featuredImagePath)}
+          className="absolute inset-0 w-full h-full object-cover z-0"
         />
+
+        {/* Overlay Gradient to boost text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-white/40 z-10" />
+
+        {/* 🎀 Top Floating Greeting */}
+        <motion.div
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.2 }}
+          className="absolute top-10 sm:top-16 w-full text-center z-20 px-4"
+        >
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white drop-shadow-lg">
+            HARINI! 
+          </h1>
+          <p className="mt-3 text-lg sm:text-2xl text-white drop-shadow">
+            Here’s a little memory lane for your surprise! 💖
+          </p>
+        </motion.div>
       </section>
 
-      {/* 📸 Gallery */}
-      <section className="min-h-screen px-4 py-10 bg-gradient-to-b from-white to-pink-100">
+      {/* 📸 Gallery Section */}
+      <section className="min-h-screen px-4 py-10 bg-gradient-to-b from-white to-violet-100">
         <div className="mx-auto max-w-screen-lg">
           <p className="mb-8 text-center text-lg text-gray-700">
             Moments that made this day extra special 💖
