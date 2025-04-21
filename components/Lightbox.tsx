@@ -9,20 +9,15 @@ const Lightbox: React.FC<LightboxProps> = ({ selectedImg, onClose }) => {
   if (!selectedImg) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-      <div className="relative max-w-4xl">
-        <button
-          className="absolute right-2 top-2 text-3xl text-white"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        <img
-          src={selectedImg}
-          alt="Full Size"
-          className="max-h-[90vh] rounded-lg"
-        />
-      </div>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <img
+        src={selectedImg}
+        alt="Preview"
+        className="max-h-[90vh] max-w-[95vw] rounded-lg shadow-xl border border-white"
+      />
     </div>
   );
 };

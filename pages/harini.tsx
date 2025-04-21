@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <div className="bg-black text-gray-100 font-sans overflow-x-hidden">
-      {/* 🌟 Hero Section with Fullscreen Image */}
+      {/* 🌟 Hero Section */}
       <section className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-black to-gray-800 overflow-hidden">
         <motion.img
           initial={{ scale: 1.05, opacity: 0 }}
@@ -43,14 +43,37 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 📸 Gallery Section */}
-      <section className="min-h-screen px-1 py-10 bg-gradient-to-b from-gray-900 to-black">
+      {/* 📱 Mobile View Gallery */}
+      <section className="block md:hidden min-h-screen px-2 py-8 bg-black">
+        <div className="text-center text-gray-200 text-xl font-semibold mb-6">Your Memories</div>
+        <div className="grid grid-cols-2 gap-[2px]">
+          {images.map((img, index) => (
+            <motion.div
+              key={index}
+              className="p-[1px]"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.02 }}
+              viewport={{ once: true }}
+            >
+              <img
+                src={`/gallery/${img}`}
+                alt={`Mobile ${index}`}
+                className="rounded-lg w-full h-full object-cover cursor-pointer transition-transform duration-500 ease-in-out hover:scale-105"
+                onClick={() => setSelectedImg(`/gallery/${img}`)}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 🖥️ Desktop View Gallery */}
+      <section className="hidden md:block min-h-screen px-1 py-10 bg-gradient-to-b from-gray-900 to-black">
         <div className="w-full max-w-screen-xl mx-auto">
           <p className="mb-8 text-center text-lg sm:text-2xl font-semibold text-gray-300">
             Some Photos Here
           </p>
 
-          {/* Gallery Grid Layout */}
           <div className="grid grid-cols-12 gap-[3px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {images.map((img, index) => {
               const shapeOptions = [
@@ -62,7 +85,6 @@ export default function Home() {
                 'col-span-6 row-span-1',
                 'col-span-6 row-span-2',
               ];
-
               const shapeClass = shapeOptions[index % shapeOptions.length];
 
               return (
