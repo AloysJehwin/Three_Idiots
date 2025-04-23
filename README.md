@@ -1,40 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🎉 Memory Lane – Jeslin Surprise Gallery
 
-## Getting Started
+A beautiful, animated web experience to showcase a surprise gallery for Jeslin. Built with **Next.js**, **Framer Motion**, and AWS S3 for image hosting. Includes a dynamic hero section, a smooth transitioning front image carousel, and an interactive image gallery.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- 🌠 **Hero Carousel**: Displays a sequence of front images with blur transition effects.
+- 📸 **Gallery Section**: A Pinterest-style responsive image grid.
+- 💡 **Lightbox View**: Clickable images that open in a fullscreen modal.
+- 🔒 **Secure Admin Panel**: Protected with a password stored in environment variables.
+- ☁️ **S3 Image Hosting**: Images are dynamically fetched from AWS S3 buckets.
+- ⚡ **Smooth Animations**: Leveraging `framer-motion` for delightful transitions.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/AloysJehwin/Three_Idiots.git
+```
+cd Three_Idiots
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+
+Create a `.env.local` file in the root directory and add the following:
+
+```env
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+AWS_REGION=us-east-1
+S3_BUCKET_NAME=three-idiots-bucket
+
+# Admin Panel
+ADMIN_PASSWORD=your_secure_admin_password
+```
+
+> ⚠️ **Never commit your `.env.local` file**. It contains sensitive credentials.
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the site.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+---
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 🗂 Folder Structure
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```
+/components
+  └── Lightbox.tsx      # Lightbox component for fullscreen images
+/pages
+  ├── index.tsx         # Main homepage
+  └── api/
+      ├── fetch-image.ts    # API route to fetch S3 gallery images
+      └── front.ts          # API route to fetch front hero images
+/public
+  └── jeslin_front_image/   # Folder for front images
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js](https://nextjs.org/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [AWS S3](https://aws.amazon.com/s3/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔒 Security
 
-## Deploy on Vercel
+- AWS credentials and the admin panel password are stored securely in `.env.local`.
+- Ensure `.env.local` is **excluded from version control** (`.gitignore`).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 📸 Image Hosting & Uploading
+
+- Front images are served from `/public/jeslin_front_image/`.
+- Gallery images are fetched from an S3 bucket via a secure API route.
+- Ensure your S3 bucket has the appropriate CORS and permissions policy.
+
+---
+
+## 🧪 Deployment
+
+You can deploy the site using:
+
+- **Vercel** (Recommended for Next.js)
+- **Netlify**
+- **AWS Amplify**
+
+Make sure to include all environment variables in the platform’s environment settings.
+
+---
+
+## 🙌 Acknowledgements
+
+Special thanks to the magical moment and the person this surprise is meant for 💖.
+
+---
+
+## 📄 License
+
+This project is for personal use only. Please do not copy or reuse without permission.
+
+---
+
