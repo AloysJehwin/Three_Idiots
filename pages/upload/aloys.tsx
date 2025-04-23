@@ -93,7 +93,7 @@ export default function UploadAloys() {
 
         <button
           type="submit"
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 text-xl rounded-lg w-64 hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-gradient-to-r from-orange-400 to-red-600 text-white px-8 py-3 text-xl rounded-lg w-64 hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={uploading}
         >
           {uploading ? 'Uploading... ' : 'Upload to Aloys Folder'}

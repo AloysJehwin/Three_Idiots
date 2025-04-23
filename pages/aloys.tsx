@@ -147,11 +147,11 @@ export default function Home() {
               transition={{ duration: 1.2 }}
               className="absolute top-20 w-full text-center px-4"
             >
-              <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
-                Hey Bestie!
+              <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">
+                ALOYS  
               </h1>
-              <p className="mt-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
-                Here’s a little memory lane for your surprise! 💖
+              <p className="mt-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">
+                When Skills has to do Something!
               </p>
             </motion.div>
           ) : (
@@ -161,11 +161,11 @@ export default function Home() {
               transition={{ duration: 1.2 }}
               className="absolute bottom-10 w-full text-center px-4"
             >
-              <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
-                Welcome to the Celebration!
+              <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">
+              Just when you thought today was ordinary…
               </h1>
-              <p className="mt-4 text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
-                Here's a special collection just for you – enjoy it in full screen!
+              <p className="mt-4 text-xl text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">
+              BOOM — a little magic, just for you. 🎁💫
               </p>
             </motion.div>
           )}
@@ -175,8 +175,8 @@ export default function Home() {
       {/* 📸 Gallery Section */}
       <section id="gallery" className="min-h-screen px-2 py-12 bg-black">
         <div className="max-w-screen-xl mx-auto">
-          <p className="mb-10 text-center text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
-            Moments that made this day extra special 💖
+          <p className="mb-10 text-center text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">
+          Welcome to the magic show 💖
           </p>
 
           <div className="columns-3 md:columns-4 gap-2 [column-fill:_balance]">
