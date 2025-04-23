@@ -2,7 +2,8 @@ import Link from 'next/link';
 
 export default function IndexPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white flex flex-col items-center justify-center font-sans px-4 py-12 relative">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center font-sans px-4 py-12 relative">
+
       {/* Title Section */}
       <h1 className="text-6xl sm:text-8xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600 drop-shadow-2xl mb-16">
         Memory Lane 🎉
@@ -11,7 +12,7 @@ export default function IndexPage() {
       {/* Bar Sections */}
       <div className="w-full max-w-screen-sm flex flex-col gap-12">
         {/* Jeslin Rindhiya */}
-        <Link href="/harini">
+        <Link href="/jeslin">
           <div className="flex items-center justify-start space-x-6 bg-gray-800 rounded-3xl py-5 px-8 w-full cursor-pointer hover:opacity-95 transition-all duration-300 transform hover:scale-105 shadow-xl">
             <img
               src="/icons/Jeslin_icon.png"
@@ -25,7 +26,7 @@ export default function IndexPage() {
         </Link>
 
         {/* Harini */}
-        <Link href="/jeslin">
+        <Link href="/harini">
           <div className="flex items-center justify-start space-x-6 bg-gray-800 rounded-3xl py-5 px-8 w-full cursor-pointer hover:opacity-95 transition-all duration-300 transform hover:scale-105 shadow-xl">
             <img
               src="/icons/Harini_icon.png"

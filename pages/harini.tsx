@@ -4,147 +4,203 @@ import { motion } from 'framer-motion';
 
 export default function Home() {
   const [images, setImages] = useState<string[]>([]);
+  const [frontImages, setFrontImages] = useState<string[]>([]);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [blurEffect, setBlurEffect] = useState(false);
+  const [showPlusIcon, setShowPlusIcon] = useState(false);
+  const [isLaptopView, setIsLaptopView] = useState(false);
 
-  const frontImages = [
-    '/front_image/front_1.png',
-    '/front_image/front_1.png',
-    '/front_image/front_1.png',
-    '/front_image/front_1.png',
-    '/front_image/front_1.png',
-  ];
-  const [currentFrontIndex, setCurrentFrontIndex] = useState(0);
-
-  useEffect(() => {
-    fetch('/api/gallery')
-      .then(res => res.json())
-      .then((data: string[]) => setImages(data))
-      .catch(err => console.error('Failed to load gallery', err));
-  }, []);
+  const spring = {
+    type: 'spring',
+    stiffness: 70,
+    damping: 20,
+    mass: 0.5,
+  } as const;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFrontIndex(prev => (prev + 1) % frontImages.length);
-    }, 4000); // Change every 4s
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    const section = document.getElementById('gallery-section');
-    if (section) {
-      observer.observe(section);
-    }
-
-    return () => {
-      if (section) observer.unobserve(section);
+    const checkScreenSize = () => {
+      setIsLaptopView(window.innerWidth >= 1024);
     };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  // ✅ Shuffle function
+  const shuffleArray = (arr: string[]) => {
+    return arr
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+  };
+
+  // ✅ Fetch and mix images from both folders
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/fetch-image?folder=harini').then((res) => res.json()),
+      fetch('/api/fetch-image?folder=group').then((res) => res.json()),
+    ]).then(([rindhiyaImages, groupImages]: [string[], string[]]) => {
+      const all = [...rindhiyaImages, ...groupImages].filter((file) =>
+        file.match(/\.(jpg|jpeg|png|gif)$/i)
+      );
+      setImages(shuffleArray(all));
+    });
+
+    fetch('/api/front?folder=harini_front_image')
+      .then((r) => r.json())
+      .then((data: string[]) => {
+        const validFrontImages = data.filter((file) => file.match(/\.(jpg|jpeg|png|gif)$/i));
+        setFrontImages(validFrontImages);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (frontImages.length > 0 && !isLaptopView) {
+      const interval = setInterval(() => {
+        if (!isTransitioning) {
+          setIsTransitioning(true);
+          setBlurEffect(true);
+          setCurrentImageIndex((prevIndex) => (prevIndex + 1) % frontImages.length);
+        }
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [frontImages, isTransitioning, isLaptopView]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const gallery = document.getElementById('gallery');
+      if (gallery) {
+        const rect = gallery.getBoundingClientRect();
+        setShowPlusIcon(rect.top < window.innerHeight);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+    setBlurEffect(false);
+  };
+
+  const handleImageLoad = () => {
+    setIsImageLoaded(true);
+  };
 
   return (
     <div className="bg-black text-gray-100 font-sans overflow-x-hidden">
-      {/* 🌟 Hero Section Slideshow */}
+      {/* 🌟 Hero Section */}
       <section className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-black">
-        {/* Slideshow Images */}
-        <div className="absolute inset-0 w-full h-full z-0">
-          {frontImages.map((src, idx) => (
-            <motion.img
-              key={idx}
-              src={src}
-              alt={`Slide ${idx}`}
-              className="absolute w-full h-full object-cover"
-              initial={false}
-              animate={{
-                opacity: currentFrontIndex === idx ? 1 : 0,
-                scale: currentFrontIndex === idx ? 1 : 1.05,
-              }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-            />
-          ))}
-        </div>
+        {/* ✅ Background for Mobile (with transition) */}
+        {!isLaptopView && frontImages.length > 0 && (
+          <motion.div
+            className="absolute inset-0 w-full h-full"
+            key={frontImages[currentImageIndex]}
+            initial={{ opacity: 0, filter: blurEffect ? 'blur(15px)' : 'blur(0)' }}
+            animate={{ opacity: 1, filter: blurEffect ? 'blur(0px)' : 'blur(0)' }}
+            exit={{ opacity: 0, filter: 'blur(15px)' }}
+            transition={{
+              duration: 1.5,
+              ease: 'easeInOut',
+              onComplete: handleTransitionEnd,
+            }}
+          >
+            <motion.div
+              className="w-full h-full flex justify-center items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 90, damping: 30, mass: 1, duration: 1.5 }}
+            >
+              <img
+                src={`/harini_front_image/${frontImages[currentImageIndex]}`}
+                alt="Featured"
+                className="absolute inset-0 w-full h-full object-cover"
+                onLoad={handleImageLoad}
+                style={{ opacity: isImageLoaded ? 1 : 0, transition: 'opacity 0.5s ease-in-out' }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90 z-10" />
+        {/* ✅ Background for Laptop (fixed) */}
+        {isLaptopView && frontImages.length > 0 && (
+          <img
+            src={`/laptopbg.png`}
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
 
-        {/* Hero Text */}
-        <motion.div
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          className="absolute top-20 w-full text-center z-20 px-4"
-        >
-          <h1 className="text-5xl sm:text-7xl font-extrabold text-white drop-shadow-lg">
-            Hey Bestie!
-          </h1>
-          <p className="mt-3 text-lg sm:text-2xl text-gray-200 drop-shadow-md">
-            Here’s a little memory lane for your surprise! 💖
-          </p>
-        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
+
+        <>
+          {!isLaptopView ? (
+            <motion.div
+              initial={{ y: -30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.2 }}
+              className="absolute top-20 w-full text-center px-4"
+            >
+              <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
+                Hey Bestie!
+              </h1>
+              <p className="mt-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
+                Here’s a little memory lane for your surprise! 💖
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.2 }}
+              className="absolute bottom-10 w-full text-center px-4"
+            >
+              <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
+                Welcome to the Celebration!
+              </h1>
+              <p className="mt-4 text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
+                Here's a special collection just for you – enjoy it in full screen!
+              </p>
+            </motion.div>
+          )}
+        </>
       </section>
 
-      {/* 📱 Mobile View Gallery - Masonry Style */}
-      <section id="gallery-section" className="block md:hidden min-h-screen px-2 py-8 bg-black">
-        <div className="text-center text-gray-200 text-xl font-semibold mb-6">Your Memories</div>
-
-        {/* Masonry layout using Tailwind's columns and avoiding breaks */}
-        <div className="columns-3 gap-1 space-y-1 px-1">
-          {images.map((img, index) => {
-            // Define 3 sets of shapes (heights)
-            const heightOptions = ['h-32', 'h-40', 'h-48']; // 3 height sets
-            const randomHeight = heightOptions[index % heightOptions.length];
-
-            return (
-              <motion.div
-                key={index}
-                className={`relative w-full ${randomHeight} overflow-hidden rounded-md border-2 border-white break-inside-avoid`}
-                initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{
-                  duration: 0.6,
-                  ease: 'easeInOut',
-                  delay: index * 0.05,
-                }}
-                viewport={{ once: true }}
-              >
-                <img
-                  src={`/gallery/${img}`}
-                  alt={`Memory ${index}`}
-                  className="w-full h-full object-cover cursor-pointer transition-transform duration-500 ease-in-out hover:scale-105"
-                  onClick={() => setSelectedImg(`/gallery/${img}`)}
-                />
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 🖥️ Desktop View Gallery (No Animation) */}
-      <section className="hidden md:block min-h-screen px-1 py-10 bg-gradient-to-b from-gray-900 to-black">
-        <div className="w-full max-w-screen-xl mx-auto">
-          <p className="mb-8 text-center text-lg sm:text-2xl font-semibold text-gray-300">
-            Some Photos Here
+      {/* 📸 Gallery Section */}
+      <section id="gallery" className="min-h-screen px-2 py-12 bg-black">
+        <div className="max-w-screen-xl mx-auto">
+          <p className="mb-10 text-center text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600">
+            Moments that made this day extra special 💖
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-            {images.map((img, index) => (
-              <div key={index}>
-                <div className="relative w-full aspect-square overflow-hidden rounded-xl shadow-md border-2 border-white hover:shadow-xl transition-all duration-500 ease-in-out">
+          <div className="columns-3 md:columns-4 gap-2 [column-fill:_balance]">
+            {images.length === 0 ? (
+              <p>Loading images...</p>
+            ) : (
+              images.map((img, i) => (
+                <motion.div
+                  key={img}
+                  className="mb-2 break-inside-avoid rounded-lg overflow-hidden border-2 border-white shadow-md"
+                  initial={{ opacity: 0, scale: 0.8, y: 40, rotateZ: -4 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0, rotateZ: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ ...spring, delay: i * 0.08 }}
+                >
                   <img
-                    src={`/gallery/${img}`}
-                    alt={`Memory ${index + 1}`}
-                    className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-transform duration-700 ease-in-out hover:scale-105 hover:brightness-110"
-                    onClick={() => setSelectedImg(`/gallery/${img}`)}
+                    src={img}
+                    alt={`Memory ${i + 1}`}
+                    className="w-full h-full object-cover cursor-pointer transition-transform duration-500 ease-[cubic-bezier(.4,0,.2,1)] hover:scale-[1.07] hover:shadow-2xl hover:rotate-[1deg]"
+                    onClick={() => setSelectedImg(img)}
                   />
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -152,14 +208,18 @@ export default function Home() {
       {/* 💡 Lightbox */}
       <Lightbox selectedImg={selectedImg} onClose={() => setSelectedImg(null)} />
 
-      {/* Plus Icon */}
-      {isVisible && (
-        <div
-          className="fixed bottom-10 right-10 bg-blue-500 text-white p-4 rounded-full cursor-pointer shadow-lg transition-transform duration-300 hover:scale-110"
-          onClick={() => setSelectedImg('/gallery/some-image.jpg')} // Replace with a relevant action
+      {/* ➕ Plus Icon */}
+      {showPlusIcon && (
+        <motion.a
+          href="/admin"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-pink-600 to-yellow-400 text-white rounded-full w-14 h-14 flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform"
+          title="Go to Admin Page"
         >
-          <span className="text-3xl">+</span>
-        </div>
+          +
+        </motion.a>
       )}
     </div>
   );
