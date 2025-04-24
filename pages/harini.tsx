@@ -12,6 +12,8 @@ export default function Home() {
   const [blurEffect, setBlurEffect] = useState(false);
   const [showPlusIcon, setShowPlusIcon] = useState(false);
   const [isLaptopView, setIsLaptopView] = useState(false);
+  const [favoriteImages, setFavoriteImages] = useState<string[]>([]); // State for favorite images
+  const [favorites, setFavorites] = useState<{ [url: string]: boolean }>({});
 
   const spring = {
     type: 'spring',
@@ -93,6 +95,47 @@ export default function Home() {
     setIsImageLoaded(true);
   };
 
+  // ✅ Handle image deletion
+  const handleDelete = async (imgUrl: string) => {
+    // Implement your deletion logic here (e.g., make an API call to delete the image)
+    console.log(`Deleting image: ${imgUrl}`);
+
+    // Example: Mocking an API call to delete the image
+    const response = await fetch('/api/imageDelete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageUrl: imgUrl }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('Image deleted:', data.message);
+      // Optionally, remove the image from the state
+      setImages(images.filter((img) => img !== imgUrl));
+    } else {
+      console.error('Error deleting image:', data.error);
+    }
+
+    setSelectedImg(null); // Close lightbox after deletion
+  };
+
+  // ✅ Handle update favorite status
+  const handleUpdateFavorite = (imgUrl: string) => {
+    setFavoriteImages((prevFavorites) => {
+      if (prevFavorites.includes(imgUrl)) {
+        return prevFavorites.filter((img) => img !== imgUrl); // Remove from favorites
+      } else {
+        return [...prevFavorites, imgUrl]; // Add to favorites
+      }
+    });
+  };
+
+  // ✅ Check if the image is a favorite
+  const isFavorite = (imgUrl: string) => {
+    return favoriteImages.includes(imgUrl);
+  };
+
   return (
     <div className="bg-black text-gray-100 font-sans overflow-x-hidden">
       {/* 🌟 Hero Section */}
@@ -148,10 +191,10 @@ export default function Home() {
               className="absolute top-20 w-full text-center px-4"
             >
               <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-                HARINI 💖
+                HARINI💫
               </h1>
               <p className="mt-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-              Thank you for being the magic in my ordinary days. ✨
+                When Skills has to do Something!
               </p>
             </motion.div>
           ) : (
@@ -162,10 +205,10 @@ export default function Home() {
               className="absolute bottom-10 w-full text-center px-4"
             >
               <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-              Just when you thought today was ordinary…
+                Just when you thought today was ordinary…
               </h1>
               <p className="mt-4 text-xl text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-              BOOM — a little magic, just for you. 🎁💫
+                BOOM — a little magic, just for you. 🎁💫
               </p>
             </motion.div>
           )}
@@ -176,7 +219,7 @@ export default function Home() {
       <section id="gallery" className="min-h-screen px-2 py-12 bg-black">
         <div className="max-w-screen-xl mx-auto">
           <p className="mb-10 text-center text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-          Welcome to the magic show 💖
+            Welcome to the magic show 💖
           </p>
 
           <div className="columns-3 md:columns-4 gap-2 [column-fill:_balance]">
@@ -205,8 +248,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 💡 Lightbox */}
-      <Lightbox selectedImg={selectedImg} onClose={() => setSelectedImg(null)} />
+      <Lightbox
+  selectedImg={selectedImg}
+  onClose={() => setSelectedImg(null)}
+  onDelete={handleDelete}
+  onUpdateFavorite={handleUpdateFavorite}
+  isFavorite={selectedImg ? favorites[selectedImg] : false}
+/>
+
 
       {/* ➕ Plus Icon */}
       {showPlusIcon && (
@@ -214,11 +263,21 @@ export default function Home() {
           href="/admin"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-pink-600 to-yellow-400 text-white rounded-full w-14 h-14 flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform"
-          title="Go to Admin Page"
+          transition={{ duration: 0.8 }}
+          className="fixed right-10 bottom-10 p-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full shadow-xl transition-all hover:scale-105"
         >
-          +
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
         </motion.a>
       )}
     </div>
