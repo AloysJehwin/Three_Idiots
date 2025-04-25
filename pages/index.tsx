@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
 const steps = [
-  { text: "Remove the bow carfully, Found a HERE Tag? Tear the wraper diagonally", emoji: "🎁", highlight: "Enjoyed the butterflies" },
-  { text: "Pull the invite card in the top right, Tuen the invite card", emoji: "🎬", highlight: "The most awaited moment" },
+  { text: "Remove the bow carefully, Found a HERE Tag? Tear the wrapper diagonally", emoji: "🎁", highlight: "Enjoyed the butterflies" },
+  { text: "Pull the invite card in the top right, Turn the invite card", emoji: "🎬", highlight: "The most awaited moment" },
   { text: "Turn on NFC mode in the mobile and page in the center", emoji: "🌟", highlight: "Enjoying the moment, aren’t you?" },
   { text: "If you don't have NFC click the link below", emoji: "😄", highlight: "You did it! Celebrate!" },
 ];
@@ -117,6 +117,7 @@ export default function SurpriseInstructions() {
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
             transition={{ duration: 0.8 }}
             className="relative bg-white bg-opacity-80 border border-white/20 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-8 max-w-sm sm:max-w-md w-full mb-8 transform hover:scale-[1.05] transition-all duration-300 z-10"
+            style={{ top: "-30px" }} // Move the step card higher
           >
             <div className="absolute top-[-25px] left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 text-white text-4xl rounded-full w-16 h-16 flex items-center justify-center shadow-xl ring-4 ring-white/40 animate-bounce">
               {steps[stepIndex].emoji}
