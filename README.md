@@ -1,40 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Three Idiots - Surprise Instructions App
 
-## Getting Started
+Welcome to **Three Idiots - Magical Surprise Instructions** app! This project guides users through a fun and interactive set of surprise steps, with animations, confetti, and NFC support. Perfect for a celebration or surprise event!
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Interactive Steps**: The app takes users through a series of steps with fun instructions and animated effects.
+- **NFC Support**: If the user has NFC enabled, the app guides them to use it for an enhanced experience.
+- **Confetti Celebration**: Once all steps are completed, the app celebrates with a confetti explosion.
+- **Typewriter Effect**: The app's title is revealed using a typewriter effect to add an element of surprise.
+- **Responsive Design**: The app is fully responsive, providing a smooth experience on both desktop and mobile devices.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+To run this project locally, follow these steps:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. **Clone the repository:**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+    ```bash
+    git clone https://github.com/AloysJehwin/Three_Idiots.git
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Navigate to the project directory:**
 
-## Learn More
+    ```bash
+    cd Three_Idiots
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Install dependencies:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+    Ensure you have Node.js installed. If not, you can download and install it from [here](https://nodejs.org/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Then, run the following command to install the project dependencies:
 
-## Deploy on Vercel
+    ```bash
+    npm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the development server:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+    ```bash
+    npm run dev
+    ```
+
+    The app will now be running locally at `http://localhost:3000`.
+
+## Usage
+
+- Open the app in your browser.
+- Follow the steps presented in the app, which include interactive instructions with fun animations and emojis.
+- The app will guide you through a set of surprises and instructions.
+- When you reach the last step, you’ll see a celebration with confetti and a special farewell message!
+
+## Deploying on Vercel
+
+To deploy this app on Vercel:
+
+1. Visit [Vercel's website](https://vercel.com/).
+2. Click on "New Project" and link your GitHub account.
+3. Select the **Three_Idiots** repository from your GitHub projects.
+4. Follow the prompts to deploy the app.
+
+Once deployed, Vercel will give you a URL where you can access your app live!
+
+## How to Contribute
+
+Contributions are welcome! If you'd like to contribute, follow these steps:
+
+1. **Fork the repository**: Click on the "Fork" button at the top right of the page.
+2. **Clone your fork**:
+    ```bash
+    git clone https://github.com/your-username/Three_Idiots.git
+    ```
+3. **Create a new branch** for your feature or bugfix:
+    ```bash
+    git checkout -b your-feature-branch
+    ```
+4. **Make your changes** and commit them:
+    ```bash
+    git commit -am 'Add new feature or fix bug'
+    ```
+5. **Push your branch** to your fork:
+    ```bash
+    git push origin your-feature-branch
+    ```
+6. **Create a pull request** to merge your changes into the main repository.
+
+## Technologies Used
+
+- **Next.js**: React framework used for server-side rendering and building the app.
+- **Framer Motion**: A library for animations, used to add smooth transitions and effects.
+- **Canvas Confetti**: Used to trigger confetti animations for celebrations.
+- **Tailwind CSS**: A utility-first CSS framework used to style the app.
+
+## Acknowledgements
+
+- **Vercel**: For providing easy deployment.
+- **Framer Motion**: For making interactive animations easy to implement.
+- **Canvas Confetti**: For adding fun confetti animations.
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+## Contact
+
+For any questions or feedback, feel free to reach out to:
+
+- **Aloys Jehwin** - [your-email@example.com](mailto:your-email@example.com)
+- Website: [aloysjehwin.com](https://aloysjehwin.com)
+
+---
+
+Made with 💖 by Aloys Jehwin
