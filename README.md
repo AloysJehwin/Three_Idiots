@@ -21,7 +21,6 @@ A beautiful, animated web experience to showcase a surprise gallery for Jeslin. 
 
 ```bash
 git clone https://github.com/AloysJehwin/Three_Idiots.git
-```
 cd Three_Idiots
 ```
 
