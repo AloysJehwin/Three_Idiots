@@ -61,22 +61,20 @@ export default function SurpriseInstructions() {
 
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-6 relative overflow-hidden">
         
-        {/* Fluid animated background */}
+        {/* Animated background */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle,_rgba(255,255,255,0.1)_2px,_transparent_2px)] opacity-50 z-0 animate-pulse" />
-        
-        {/* Glowing particles effect */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle,_rgba(255,255,255,0.05)_20px,_transparent_20px)] animate-pulse z-0" />
-        
+
         {/* Typewriter Header */}
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: isLastStep ? -40 : 0 }}
           transition={{ duration: 1 }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-400 drop-shadow-xl z-10"
+          className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-400 drop-shadow-xl z-10 ${isLastStep ? 'mt-[-2rem]' : ''}`}
         >
           {title}
         </motion.h1>
-        
+
         {/* Progress dots */}
         <div className="flex gap-3 mb-4 z-10">
           {steps.map((_, index) => (
@@ -116,8 +114,8 @@ export default function SurpriseInstructions() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
             transition={{ duration: 0.8 }}
-            className="relative bg-white bg-opacity-80 border border-white/20 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-8 max-w-sm sm:max-w-md w-full mb-8 transform hover:scale-[1.05] transition-all duration-300 z-10"
-            style={{ top: "-30px" }} // Move the step card higher
+            className={`relative bg-white bg-opacity-80 border border-white/20 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-8 max-w-sm sm:max-w-md w-full mb-8 transform hover:scale-[1.05] transition-all duration-300 z-10 ${isLastStep ? 'mt-[-3rem]' : ''}`}
+            style={{ top: "-30px" }}
           >
             <div className="absolute top-[-25px] left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 text-white text-4xl rounded-full w-16 h-16 flex items-center justify-center shadow-xl ring-4 ring-white/40 animate-bounce">
               {steps[stepIndex].emoji}
@@ -128,7 +126,7 @@ export default function SurpriseInstructions() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Next Button */}
+        {/* Next Button / Final Link */}
         {!isLastStep ? (
           <motion.button
             onClick={handleNext}
@@ -140,7 +138,7 @@ export default function SurpriseInstructions() {
           </motion.button>
         ) : (
           <motion.a
-            href="https://three-idiots.vercel.app/" // Change this URL to your destination
+            href="https://three-idiots.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 px-10 py-4 rounded-full font-semibold shadow-lg text-white hover:opacity-90 transition z-10"
@@ -159,7 +157,6 @@ export default function SurpriseInstructions() {
             className="absolute bottom-10 text-xl font-semibold bg-transparent text-white py-2 px-6 rounded-lg z-10"
           >
             <p className="text-center">💖 It's time to say goodbye. Thank you for all the beautiful memories. I’ll miss you!</p>
-            <p className="text-center mt-2">Take care, and our paths will cross again soon! ✨</p>
           </motion.div>
         )}
 
