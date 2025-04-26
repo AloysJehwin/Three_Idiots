@@ -54,7 +54,7 @@ export default function AdminPage() {
                   className="w-14 h-14 rounded-full object-cover border-4 border-white shadow-md"
                 />
                 <div className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-                  Harini 💖
+                  Harini G💖
                 </div>
               </div>
             </Link>
