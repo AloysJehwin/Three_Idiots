@@ -1,4 +1,4 @@
-# 🎉 Memory Lane – Jeslin Surprise Gallery
+# 🎉 Memory Lane – Surprise Gallery
 
 A beautiful, animated web experience to showcase a surprise gallery for Jeslin. Built with **Next.js**, **Framer Motion**, and AWS S3 for image hosting. Includes a dynamic hero section, a smooth transitioning front image carousel, and an interactive image gallery.
 
@@ -21,7 +21,6 @@ A beautiful, animated web experience to showcase a surprise gallery for Jeslin. 
 
 ```bash
 git clone https://github.com/AloysJehwin/Three_Idiots.git
-```
 cd Three_Idiots
 ```
 
